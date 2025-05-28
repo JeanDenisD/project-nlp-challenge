@@ -18,9 +18,10 @@ This repository contains exploration of different NLP approaches for binary clas
 ## Model Approaches Explored
 
 ### 1. Baseline Logistic Regression (`base_model_LR.ipynb`)
-- Traditional ML with stemming and CountVectorizer
-- **Accuracy**: ~70-75% (baseline)
-- NLTK preprocessing with PorterStemmer
+- Traditional ML with standardized preprocessing and CountVectorizer
+- **Accuracy**: 92.90% (strong baseline)
+- Uses standardized `preprocess.py` functions for consistency
+- Enhanced from original NLTK stemming approach
 
 ### 2. Simple BERT Feature Extraction (`simple_bert_model.ipynb`)
 - BERT as frozen feature extractor + LogisticRegression
@@ -35,11 +36,11 @@ This repository contains exploration of different NLP approaches for binary clas
 ## Key Technical Components
 
 ### Preprocessing Pipeline (`preprocess.py`)
-- Tab-separated data parsing 
-- Text cleaning and tokenization
-- Train/validation splits with stratification
-- TF-IDF vectorization for traditional ML
-- Reusable functions for both traditional ML and BERT approaches
+- Standardized data loading with tab-separated parsing
+- Consistent text cleaning (punctuation removal, whitespace normalization)
+- Stratified train/validation splits maintaining label balance
+- CountVectorizer and TF-IDF vectorization options
+- Reusable functions across all model approaches for consistency
 
 ### Training Optimizations
 - **Full BERT**: Hugging Face Trainer with early stopping
@@ -50,50 +51,66 @@ This repository contains exploration of different NLP approaches for binary clas
 
 | Model | Architecture | Training Time | Accuracy | Key Innovation |
 |-------|-------------|---------------|----------|----------------|
-| Baseline | TF-IDF + LogisticRegression | ~minutes | ~70-75% | Traditional ML |
+| **Baseline** | **CountVectorizer + LogisticRegression** | **~1-2 min** | **92.90%** | **Standardized preprocessing** |
 | Simple BERT | Frozen BERT + Classifier | 1.18 min | 95.87% | Feature extraction |
 | **Full BERT** | **Fine-tuned BERT-base** | **11.29 min** | **98.59%** | **Complete fine-tuning (best)** |
 
 ## Repository Structure
 ```
-├── preprocess.py                        # Main preprocessing utilities
-├── base_model_LR.ipynb                  # Baseline Logistic Regression
-├── simple_bert_model.ipynb              # Simple BERT feature extraction
-├── full_bert_model.ipynb                # Full BERT fine-tuning
+├── preprocess.py                        # Standardized preprocessing utilities
+├── base_model_LR.ipynb                  # Refactored Logistic Regression (92.90%)
+├── base_model_LR_original.ipynb         # Original baseline (backup)
+├── simple_bert_model.ipynb              # Simple BERT feature extraction (95.87%)
+├── full_bert_model.ipynb                # Full BERT fine-tuning (98.59%)
 ├── data/
-│   ├── training_data_lowercase.csv      # Training dataset
-│   └── testing_data_lowercase_nolabels.csv # Test dataset
+│   ├── training_data_lowercase.csv      # Training dataset (34,151 articles)
+│   └── testing_data_lowercase_nolabels.csv # Test dataset (9,983 articles)
 └── README.md                            # Project documentation
 ```
 
 ## Key Insights
-1. **BERT power**: Even frozen BERT features achieve 95.87% accuracy
-2. **Efficiency tradeoff**: Simple BERT is 9.5x faster with only 2.7% accuracy loss
-3. **Fine-tuning impact**: Full BERT achieves near-perfect 98.59% accuracy
-4. **Hardware advantage**: M4 Pro with MPS acceleration enables fast BERT training
-5. **Text preprocessing**: Minimal cleaning works best for BERT models
+1. **Strong traditional ML baseline**: Proper preprocessing achieves 92.90% accuracy with simple LogisticRegression
+2. **BERT incremental gains**: BERT provides substantial but diminishing returns over strong baselines
+3. **Preprocessing importance**: Standardized text cleaning significantly improves traditional ML performance
+4. **Efficiency considerations**: Baseline model trains in ~1-2 minutes vs 11+ minutes for full BERT
+5. **Architecture evolution**: CountVectorizer → Frozen BERT → Fine-tuned BERT shows clear progression
+6. **Hardware advantage**: M4 Pro with MPS acceleration enables efficient BERT experimentation
 
 ## Performance Comparison
-- **Baseline → Simple BERT**: +25.87 percentage points improvement
-- **Simple BERT → Full BERT**: +2.73 percentage points improvement  
-- **Simple BERT efficiency**: 9.5x faster training than Full BERT
-- **Full BERT confidence**: 99% precision/recall for both classes
+- **Traditional ML Excellence**: 92.90% accuracy proves traditional methods remain highly competitive
+- **Baseline → Simple BERT**: +2.97 percentage points improvement (92.90% → 95.87%)
+- **Simple BERT → Full BERT**: +2.72 percentage points improvement (95.87% → 98.59%)
+- **Training efficiency**: Baseline is 5-10x faster than BERT approaches
+- **Diminishing returns**: Each model upgrade provides smaller improvements
+- **Cost-benefit**: Baseline achieves 94% of full BERT performance at 10% of training time
 
 ## Usage
 ```python
-from preprocess import load_and_parse_data, complete_preprocessing_pipeline
+from preprocess import load_and_parse_data, create_train_validation_split, clean_text
 
-# Load and preprocess data
+# Load and preprocess data using standardized functions
 train_data = load_and_parse_data('data/training_data_lowercase.csv')
 
-# Traditional ML pipeline
-processed_data = complete_preprocessing_pipeline(
-    'data/training_data_lowercase.csv',
-    'data/testing_data_lowercase_nolabels.csv'
-)
+# Apply standardized text cleaning
+for item in train_data:
+    item['clean_text'] = clean_text(item['text'])
 
-# For BERT models, use the same preprocessing functions
-# with minimal text cleaning inside the notebook
+# Create consistent train/validation splits
+data_for_split = [{'label': item['label'], 'text': item['clean_text']} for item in train_data]
+X_train, X_val, y_train, y_val = create_train_validation_split(data_for_split)
+
+# Traditional ML pipeline with CountVectorizer
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.linear_model import LogisticRegression
+
+vectorizer = CountVectorizer(max_features=10000, stop_words='english', 
+                           lowercase=False, min_df=2, max_df=0.95)
+X_train_vec = vectorizer.fit_transform(X_train)
+X_val_vec = vectorizer.transform(X_val)
+
+model = LogisticRegression(max_iter=1000, random_state=42)
+model.fit(X_train_vec, y_train)
+# Achieves 92.90% validation accuracy
 ```
 
 ## Technologies Used
@@ -103,4 +120,4 @@ processed_data = complete_preprocessing_pipeline(
 - **pandas/numpy**: Data processing and manipulation
 
 ---
-*This project demonstrates the power of transformer models for text classification, achieving near-perfect accuracy on fake news detection through systematic model comparison and optimization.*
+*This project demonstrates a comprehensive comparison of NLP approaches for fake news classification, from highly optimized traditional ML (92.90% accuracy) to state-of-the-art transformers (98.59% accuracy), emphasizing the importance of proper preprocessing and the cost-benefit analysis of different architectural choices.*
