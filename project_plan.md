@@ -12,7 +12,7 @@
 
 ### Data & Preprocessing
 - [ ] Load and explore both datasets
-- [ ] Basic text cleaning and preprocessing
+- [ ] Basic text cleaning and preprocessing (based on model - it may need adjustment)
 - [ ] Create train/validation split
 - [ ] Understand data structure
 
