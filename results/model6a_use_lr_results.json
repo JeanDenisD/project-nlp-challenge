@@ -1,0 +1,61 @@
+{
+  "display_name": "Model 6a: USE + Logistic Regression",
+  "accuracy": 0.9244620114185331,
+  "training_time_minutes": 0.004661571979522705,
+  "timestamp": "2025-05-29T16:33:06.454726",
+  "model_id": "model6a_use_lr",
+  "model_architecture": "Logistic Regression with Universal Sentence Encoder embeddings",
+  "preprocessing_type": "universal_sentence_encoder",
+  "hyperparameters": {
+    "embedding_source": "TF Hub Universal Sentence Encoder",
+    "embedding_type": "512-d sentence vector",
+    "C": 1.0,
+    "max_iter": 1000,
+    "random_state": null
+  },
+  "dataset_info": {
+    "training_samples": 27321,
+    "test_samples": 6831,
+    "embedding_dimensions": 512,
+    "embedding_source": "https://tfhub.dev/google/universal-sentence-encoder/4"
+  },
+  "train_accuracy": 0.9235020680062955,
+  "test_accuracy": 0.9244620114185331,
+  "confusion_matrix": [
+    [
+      3239,
+      290
+    ],
+    [
+      226,
+      3076
+    ]
+  ],
+  "classification_report": {
+    "0": {
+      "precision": 0.9347763347763348,
+      "recall": 0.9178237461037121,
+      "f1-score": 0.92622247640835,
+      "support": 3529.0
+    },
+    "1": {
+      "precision": 0.9138443256090315,
+      "recall": 0.931556632344034,
+      "f1-score": 0.9226154769046191,
+      "support": 3302.0
+    },
+    "accuracy": 0.9244620114185331,
+    "macro avg": {
+      "precision": 0.9243103301926832,
+      "recall": 0.924690189223873,
+      "f1-score": 0.9244189766564845,
+      "support": 6831.0
+    },
+    "weighted avg": {
+      "precision": 0.9246581245186221,
+      "recall": 0.9244620114185331,
+      "f1-score": 0.9244789085030186,
+      "support": 6831.0
+    }
+  }
+}

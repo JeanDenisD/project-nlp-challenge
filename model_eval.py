@@ -7,8 +7,10 @@ import json
 import os
 import matplotlib.pyplot as plt
 import numpy as np
+import joblib
 from datetime import datetime
 from pathlib import Path
+
 
 # Presentation styling constants
 PRESENTATION_STYLE = {
@@ -499,3 +501,29 @@ def list_available_models(results_dir="results"):
         print(f"  {model_id}: {display_name} ({accuracy:.2f}%)")
     
     return list(models_dict.keys())
+
+def save_trained_model(model, model_name, save_dir="trained_models"):
+    """
+    Save a trained scikit-learn model to disk using joblib.
+    
+    Args:
+        model (object): Trained model object (e.g., LogisticRegression, Pipeline, etc.)
+        model_name (str): Name of the model file (without extension)
+        save_dir (str): Directory where the model will be saved (default: "trained_models")
+    
+    Returns:
+        str: Path to the saved model file
+    """
+    # Ensure save directory exists
+    Path(save_dir).mkdir(parents=True, exist_ok=True)
+    
+    # Optional: Add timestamp to file name for versioning
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    filename = f"{model_name}_{timestamp}.joblib"
+    filepath = Path(save_dir) / filename
+
+    # Save the model
+    joblib.dump(model, filepath)
+
+    print(f"✅ Model saved: {filepath}")
+    return str(filepath)
