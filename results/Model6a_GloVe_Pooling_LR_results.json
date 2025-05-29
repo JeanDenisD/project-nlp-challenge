@@ -2,9 +2,9 @@
   "display_name": "GloVe + Pooling + Logistic Regression",
   "accuracy": 0.8896208461425853,
   "training_time_minutes": 0.0012664675712585449,
-  "timestamp": "2025-05-29T15:17:58.231158",
+  "timestamp": "2025-05-29T15:42:58.197988",
   "model_id": "Model6a_GloVe_Pooling_LR",
-  "model_architecture": "Logistic Regression with GloVe embeddings and mean pooling",
+  "model_architecture": "Logistic Regression with GloVe-6B-100d embeddings (400K vocab) and mean pooling",
   "preprocessing_type": "glove_embeddings_pooling",
   "hyperparameters": {
     "glove_dimensions": 100,
