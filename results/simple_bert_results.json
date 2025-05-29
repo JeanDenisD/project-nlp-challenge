@@ -1,0 +1,27 @@
+{
+  "display_name": "Simple BERT",
+  "accuracy": 0.958717610891524,
+  "training_time_minutes": 1.1561862468719482,
+  "timestamp": "2025-05-29T01:04:15.047607",
+  "model_id": "simple_bert",
+  "model_architecture": "Frozen BERT + LogisticRegression (768 features)",
+  "preprocessing_type": "minimal_cleaning",
+  "hyperparameters": {
+    "bert_model": "bert-base-uncased",
+    "max_length": 39,
+    "classifier": "LogisticRegression",
+    "max_iter": 1000,
+    "random_state": 42,
+    "C": 1.0
+  },
+  "dataset_info": {
+    "training_samples": 27320,
+    "validation_samples": 6831,
+    "feature_dimension": 768,
+    "bert_parameters_frozen": 109482240,
+    "classifier_parameters": 769,
+    "feature_extraction_time_minutes": 1.1324689825375875,
+    "classifier_training_time_seconds": 1.4230358600616455
+  },
+  "train_accuracy": 0.9653001464128843
+}
