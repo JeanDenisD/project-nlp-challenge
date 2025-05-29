@@ -1,0 +1,23 @@
+{
+  "display_name": "GloVe + Pooling + Logistic Regression",
+  "accuracy": 0.8896208461425853,
+  "training_time_minutes": 0.0020095149676005045,
+  "timestamp": "2025-05-29T14:09:53.083886",
+  "model_id": "Model6a_GloVe_Pooling_LR",
+  "model_architecture": "Logistic Regression with GloVe embeddings and mean pooling",
+  "preprocessing_type": "glove_embeddings_pooling",
+  "hyperparameters": {
+    "glove_dimensions": 100,
+    "pooling_method": "mean",
+    "C": 1.0,
+    "max_iter": 1000,
+    "random_state": null
+  },
+  "dataset_info": {
+    "training_samples": 27321,
+    "test_samples": 6831,
+    "embedding_dimensions": 100,
+    "glove_vocab_size": 400000
+  },
+  "train_accuracy": 0.8823249515025072
+}
