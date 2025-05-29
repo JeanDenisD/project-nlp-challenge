@@ -148,7 +148,7 @@ def get_model_names_and_accuracies(models_dict):
     
     return model_names, accuracies
 
-def plot_best_models_comparison(models_dict=None, save_path="presentation_assets/executive_summary.png", title="Model Performance Comparison", chart_type="line"):
+def plot_best_models_comparison(models_dict=None, save_path="presentation_assets/executive_summary.png", title="Model Performance Comparison", chart_type="line", order=None):
     """
     Create executive summary chart comparing models with improved scaling.
     
@@ -157,6 +157,9 @@ def plot_best_models_comparison(models_dict=None, save_path="presentation_assets
         save_path (str): Path to save the chart
         title (str): Chart title
         chart_type (str): "line" or "bar" chart type
+        order (list): Optional list of model IDs to specify the order of models in the chart.
+                     If None, models will be displayed in the order they appear in the dictionary.
+                     Example: ["baseline_lr", "glove_pooling_lr", "full_bert_finetuned"]
     """
     if models_dict is None:
         models_dict = load_all_model_results()
@@ -164,6 +167,23 @@ def plot_best_models_comparison(models_dict=None, save_path="presentation_assets
     if not models_dict:
         print("No model results found. Please save model results first.")
         return
+    
+    # If order is specified, reorder the models_dict
+    if order is not None:
+        # Filter and reorder models_dict based on the specified order
+        ordered_models_dict = {}
+        for model_id in order:
+            if model_id in models_dict:
+                ordered_models_dict[model_id] = models_dict[model_id]
+            else:
+                print(f"Warning: Model '{model_id}' not found in results. Available models: {list(models_dict.keys())}")
+        
+        # Add any remaining models not specified in order
+        for model_id, data in models_dict.items():
+            if model_id not in ordered_models_dict:
+                ordered_models_dict[model_id] = data
+        
+        models_dict = ordered_models_dict
     
     model_names, accuracies = get_model_names_and_accuracies(models_dict)
     
@@ -247,13 +267,16 @@ def plot_best_models_comparison(models_dict=None, save_path="presentation_assets
     print(f"Chart saved to {save_path}")
     print(f"Y-axis range: {y_min:.1f}% - {y_max:.1f}% (Range: {y_max-y_min:.1f} percentage points)")
 
-def plot_model_accuracy_comparison(models_dict=None, save_path="presentation_assets/model_comparison.png"):
+def plot_model_accuracy_comparison(models_dict=None, save_path="presentation_assets/model_comparison.png", order=None):
     """
     Create detailed model comparison chart with accuracy and training time (improved scaling).
     
     Args:
         models_dict (dict): Dictionary of model results. If None, loads from files.
         save_path (str): Path to save the chart
+        order (list): Optional list of model IDs to specify the order of models in the chart.
+                     If None, models will be displayed in the order they appear in the dictionary.
+                     Example: ["baseline_lr", "glove_pooling_lr", "full_bert_finetuned"]
     """
     if models_dict is None:
         models_dict = load_all_model_results()
@@ -261,6 +284,23 @@ def plot_model_accuracy_comparison(models_dict=None, save_path="presentation_ass
     if not models_dict:
         print("No model results found. Please save model results first.")
         return
+    
+    # If order is specified, reorder the models_dict
+    if order is not None:
+        # Filter and reorder models_dict based on the specified order
+        ordered_models_dict = {}
+        for model_id in order:
+            if model_id in models_dict:
+                ordered_models_dict[model_id] = models_dict[model_id]
+            else:
+                print(f"Warning: Model '{model_id}' not found in results. Available models: {list(models_dict.keys())}")
+        
+        # Add any remaining models not specified in order
+        for model_id, data in models_dict.items():
+            if model_id not in ordered_models_dict:
+                ordered_models_dict[model_id] = data
+        
+        models_dict = ordered_models_dict
     
     # Extract data
     model_names, accuracies = get_model_names_and_accuracies(models_dict)
@@ -437,13 +477,16 @@ def generate_presentation_summary(models_dict=None):
     
     return summary
 
-def create_model_performance_table(models_dict=None, format_type="markdown"):
+def create_model_performance_table(models_dict=None, format_type="markdown", order=None):
     """
     Create a formatted table of model performance for README or presentation.
     
     Args:
         models_dict (dict): Dictionary of model results. If None, loads from files.
         format_type (str): "markdown" or "html"
+        order (list): Optional list of model IDs to specify the order of models in the table.
+                     If None, models will be sorted by accuracy (descending).
+                     Example: ["baseline_lr", "glove_pooling_lr", "full_bert_finetuned"]
         
     Returns:
         str: Formatted table string
@@ -454,22 +497,39 @@ def create_model_performance_table(models_dict=None, format_type="markdown"):
     if not models_dict:
         return "No model results found"
     
-    if format_type == "markdown":
-        # Create markdown table
-        header = "| Model | Accuracy | Training Time | Architecture |\n"
-        separator = "|-------|----------|---------------|-------------|\n"
-        rows = ""
+    # If order is specified, use that order; otherwise sort by accuracy
+    if order is not None:
+        # Filter and reorder models_dict based on the specified order
+        ordered_models_dict = {}
+        for model_id in order:
+            if model_id in models_dict:
+                ordered_models_dict[model_id] = models_dict[model_id]
+            else:
+                print(f"Warning: Model '{model_id}' not found in results. Available models: {list(models_dict.keys())}")
         
-        # Sort by accuracy (descending)
+        # Add any remaining models not specified in order
+        for model_id, data in models_dict.items():
+            if model_id not in ordered_models_dict:
+                ordered_models_dict[model_id] = data
+        
+        sorted_models = list(ordered_models_dict.items())
+    else:
+        # Sort by accuracy (descending) - default behavior
         sorted_models = sorted(models_dict.items(), 
                              key=lambda x: x[1].get("accuracy", 0), 
                              reverse=True)
+    
+    if format_type == "markdown":
+        # Create markdown table
+        header = "| Model | Accuracy | Training Time | Architecture/Setup |\n"
+        separator = "|-------|----------|---------------|-------------|\n"
+        rows = ""
         
         for model_id, data in sorted_models:
             display_name = data.get("display_name", model_id)
             accuracy = f"{data.get('accuracy', 0) * 100:.2f}%"
             time_str = f"{data.get('training_time_minutes', 0):.1f} min"
-            architecture = data.get("architecture", "Unknown")
+            architecture = data.get("model_architecture", "Unknown")
             
             rows += f"| {display_name} | {accuracy} | {time_str} | {architecture} |\n"
         

@@ -1,0 +1,23 @@
+{
+  "display_name": "Universal Sentence Encoder + Logistic Regression",
+  "accuracy": 0.9244620114185331,
+  "training_time_minutes": 0.01465076208114624,
+  "timestamp": "2025-05-29T14:01:38.995107",
+  "model_id": "Model6a_USE_LR",
+  "model_architecture": "Logistic Regression with Universal Sentence Encoder embeddings (512-dim)",
+  "preprocessing_type": "universal_sentence_encoder",
+  "hyperparameters": {
+    "embedding_model": "universal-sentence-encoder/4",
+    "embedding_dimensions": 512,
+    "C": 1.0,
+    "max_iter": 1000,
+    "random_state": 42
+  },
+  "dataset_info": {
+    "training_samples": 27321,
+    "test_samples": 6831,
+    "embedding_dimensions": 512,
+    "embedding_model": "TensorFlow Hub Universal Sentence Encoder v4"
+  },
+  "train_accuracy": 0.9235020680062955
+}
