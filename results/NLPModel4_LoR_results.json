@@ -1,0 +1,20 @@
+{
+  "display_name": "Logistic Regression 4",
+  "accuracy": 0.9500805152979066,
+  "training_time_minutes": 0.0048021713892618815,
+  "timestamp": "2025-05-29T17:57:19.605838",
+  "model_id": "NLPModel4_LoR",
+  "model_architecture": "Logistic Regression 4 + TF-IDF Vectorization + Hyperparameters",
+  "preprocessing_type": "NLP Basic PreProcessing",
+  "hyperparameters": {
+    "token_pattern": "(?u)\\b\\w+\\b",
+    "ngram_range": [
+      1,
+      2
+    ],
+    "min_df": 2,
+    "max_df": 0.8,
+    "max_features": 10000
+  },
+  "train_accuracy": 0.9626294791552286
+}

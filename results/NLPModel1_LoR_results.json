@@ -1,0 +1,37 @@
+{
+  "display_name": "Logistic Regression",
+  "accuracy": 0.9467135119309033,
+  "training_time_minutes": 0.0037214120229085287,
+  "timestamp": "2025-05-29T17:47:06.907393",
+  "model_id": "NLPModel1_LoR",
+  "model_architecture": "Logistic Regression with TF-IDF Vectorization",
+  "preprocessing_type": "NLP Basic PreProcessing",
+  "train_accuracy": 0.963800739358003,
+  "classification_report": {
+    "0": {
+      "precision": 0.9556579326230924,
+      "recall": 0.9404930575233778,
+      "f1-score": 0.9480148528991716,
+      "support": 3529.0
+    },
+    "1": {
+      "precision": 0.9374627754615843,
+      "recall": 0.9533615990308903,
+      "f1-score": 0.9453453453453453,
+      "support": 3302.0
+    },
+    "accuracy": 0.9467135119309033,
+    "macro avg": {
+      "precision": 0.9465603540423384,
+      "recall": 0.946927328277134,
+      "f1-score": 0.9466800991222585,
+      "support": 6831.0
+    },
+    "weighted avg": {
+      "precision": 0.9468626743962881,
+      "recall": 0.9467135119309033,
+      "f1-score": 0.946724454137243,
+      "support": 6831.0
+    }
+  }
+}

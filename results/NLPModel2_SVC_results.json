@@ -1,0 +1,37 @@
+{
+  "display_name": "Linear SVC",
+  "accuracy": 0.9335610058987892,
+  "training_time_minutes": 0.0033337672551472983,
+  "timestamp": "2025-05-29T17:50:51.057755",
+  "model_id": "NLPModel2_SVC",
+  "model_architecture": "Linear SVC with TF-IDF Vectorization",
+  "preprocessing_type": "NLP Basic PreProcessing",
+  "train_accuracy": 0.9826890234435647,
+  "classification_report": {
+    "0": {
+      "precision": 0.935965184954927,
+      "recall": 0.9313331271265078,
+      "f1-score": 0.9336434108527132,
+      "support": 3233.0
+    },
+    "1": {
+      "precision": 0.9311627906976744,
+      "recall": 0.9358055468993456,
+      "f1-score": 0.9334783960211377,
+      "support": 3209.0
+    },
+    "accuracy": 0.9335610058987892,
+    "macro avg": {
+      "precision": 0.9335639878263007,
+      "recall": 0.9335693370129268,
+      "f1-score": 0.9335609034369254,
+      "support": 6442.0
+    },
+    "weighted avg": {
+      "precision": 0.9335729336088351,
+      "recall": 0.9335610058987892,
+      "f1-score": 0.9335612108225166,
+      "support": 6442.0
+    }
+  }
+}

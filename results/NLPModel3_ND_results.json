@@ -1,0 +1,20 @@
+{
+  "display_name": "Naive Bayes",
+  "accuracy": 0.9276622167028873,
+  "training_time_minutes": 0.01706481377283732,
+  "timestamp": "2025-05-29T17:55:41.417102",
+  "model_id": "NLPModel3_ND",
+  "model_architecture": "Naive Bayes with TF-IDF Vectorization",
+  "preprocessing_type": "NLP Basic PreProcessing",
+  "hyperparameters": {
+    "token_pattern": "(?u)\\b\\w+\\b",
+    "ngram_range": [
+      1,
+      2
+    ],
+    "min_df": 2,
+    "max_df": 0.8,
+    "max_features": 10000
+  },
+  "train_accuracy": 0.9464876823527455
+}
