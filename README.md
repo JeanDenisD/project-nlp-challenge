@@ -102,7 +102,10 @@ project-nlp-challenge/
 │   │   ├── model6a_use_lr_results.json
 │   │   └── model6b_glove_pooling_lr_results.json
 │   ├── trained_models/                         # Saved traditional ML models
-│   ├── prediction/                             # Test predictions
+│   ├── prediction/                             # Test dataset predictions
+│   │   ├── full_bert_predictions.csv           # BERT predictions on test data
+│   │   ├── GridSearchCV_pipeline_selection.csv # GridSearchCV predictions on test data
+│   └── tmp_trainer/                            # Temporary training files
 ├── 📋 Documentation & Planning
 │   ├── README.md                               # This file
 │   ├── project_plan.md                         # Project planning
@@ -258,6 +261,31 @@ print(f"Loaded {len(models)} model results")
 # Generate comparison charts
 plot_best_models_comparison(models, save_path="model_comparison.png")
 ```
+
+## 🔮 Expected Test Performance
+
+Based on our validation results and understanding of model generalization patterns, we've made predictions on the unseen test dataset (9,983 articles). Here are our estimated accuracies:
+
+### **Full BERT Fine-tuned**
+- **Validation Accuracy**: 98.76%
+- **Expected Test Accuracy**: **96%**
+- **Rationale**: BERT models typically see a 2-3% drop on unseen data due to slight overfitting and domain variations. Despite the high validation score, we conservatively estimate 96% to account for real-world performance.
+- **Predictions File**: `prediction/full_bert_predictions.csv`
+
+### **GridSearchCV Pipeline** 
+- **Validation Accuracy**: 95.45%
+- **Expected Test Accuracy**: **93%**
+- **Rationale**: Traditional ML models with proper cross-validation typically generalize well but may see a 2-3% drop. Our systematic hyperparameter search should provide robust performance.
+- **Predictions File**: `prediction/GridSearchCV_pipeline_selection.csv`
+
+### **Confidence Level**
+We have **high confidence** in these estimates because:
+- Our models show consistent performance across validation folds
+- Conservative estimates account for typical generalization gaps
+- Both models use different architectures, providing diverse prediction strategies
+- Validation methodology closely mirrors test conditions
+
+*These predictions represent our best assessment of real-world performance prior to final evaluation.*
 
 ## 🎯 Monitoring & Deployment Recommendations
 
