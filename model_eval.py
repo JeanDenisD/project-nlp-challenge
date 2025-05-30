@@ -148,7 +148,7 @@ def get_model_names_and_accuracies(models_dict):
     
     return model_names, accuracies
 
-def plot_best_models_comparison(models_dict=None, save_path="presentation_assets/executive_summary.png", title="Model Performance Comparison", chart_type="line", order=None):
+def plot_best_models_comparison(models_dict=None, save_path="presentation_assets/executive_summary.png", title="Model Performance Comparison", chart_type="line", order=None, filter_only=False):
     """
     Create executive summary chart comparing models with improved scaling.
     
@@ -160,6 +160,8 @@ def plot_best_models_comparison(models_dict=None, save_path="presentation_assets
         order (list): Optional list of model IDs to specify the order of models in the chart.
                      If None, models will be displayed in the order they appear in the dictionary.
                      Example: ["baseline_lr", "glove_pooling_lr", "full_bert_finetuned"]
+        filter_only (bool): If True and order is provided, only include models in the order list.
+                           If False, include all models but reorder based on the order list.
     """
     if models_dict is None:
         models_dict = load_all_model_results()
@@ -168,7 +170,7 @@ def plot_best_models_comparison(models_dict=None, save_path="presentation_assets
         print("No model results found. Please save model results first.")
         return
     
-    # If order is specified, reorder the models_dict
+    # If order is specified, reorder (and optionally filter) the models_dict
     if order is not None:
         # Filter and reorder models_dict based on the specified order
         ordered_models_dict = {}
@@ -178,10 +180,11 @@ def plot_best_models_comparison(models_dict=None, save_path="presentation_assets
             else:
                 print(f"Warning: Model '{model_id}' not found in results. Available models: {list(models_dict.keys())}")
         
-        # Add any remaining models not specified in order
-        for model_id, data in models_dict.items():
-            if model_id not in ordered_models_dict:
-                ordered_models_dict[model_id] = data
+        # Add any remaining models not specified in order (only if filter_only is False)
+        if not filter_only:
+            for model_id, data in models_dict.items():
+                if model_id not in ordered_models_dict:
+                    ordered_models_dict[model_id] = data
         
         models_dict = ordered_models_dict
     
@@ -267,9 +270,9 @@ def plot_best_models_comparison(models_dict=None, save_path="presentation_assets
     print(f"Chart saved to {save_path}")
     print(f"Y-axis range: {y_min:.1f}% - {y_max:.1f}% (Range: {y_max-y_min:.1f} percentage points)")
 
-def plot_model_accuracy_comparison(models_dict=None, save_path="presentation_assets/model_comparison.png", order=None):
+def plot_model_accuracy_comparison(models_dict=None, save_path="presentation_assets/model_comparison.png", order=None, filter_only=False):
     """
-    Create detailed model comparison chart with accuracy and training time (improved scaling).
+    Create detailed model accuracy comparison chart (improved scaling).
     
     Args:
         models_dict (dict): Dictionary of model results. If None, loads from files.
@@ -277,6 +280,8 @@ def plot_model_accuracy_comparison(models_dict=None, save_path="presentation_ass
         order (list): Optional list of model IDs to specify the order of models in the chart.
                      If None, models will be displayed in the order they appear in the dictionary.
                      Example: ["baseline_lr", "glove_pooling_lr", "full_bert_finetuned"]
+        filter_only (bool): If True and order is provided, only include models in the order list.
+                           If False, include all models but reorder based on the order list.
     """
     if models_dict is None:
         models_dict = load_all_model_results()
@@ -285,7 +290,7 @@ def plot_model_accuracy_comparison(models_dict=None, save_path="presentation_ass
         print("No model results found. Please save model results first.")
         return
     
-    # If order is specified, reorder the models_dict
+    # If order is specified, reorder (and optionally filter) the models_dict
     if order is not None:
         # Filter and reorder models_dict based on the specified order
         ordered_models_dict = {}
@@ -295,19 +300,16 @@ def plot_model_accuracy_comparison(models_dict=None, save_path="presentation_ass
             else:
                 print(f"Warning: Model '{model_id}' not found in results. Available models: {list(models_dict.keys())}")
         
-        # Add any remaining models not specified in order
-        for model_id, data in models_dict.items():
-            if model_id not in ordered_models_dict:
-                ordered_models_dict[model_id] = data
+        # Add any remaining models not specified in order (only if filter_only is False)
+        if not filter_only:
+            for model_id, data in models_dict.items():
+                if model_id not in ordered_models_dict:
+                    ordered_models_dict[model_id] = data
         
         models_dict = ordered_models_dict
     
     # Extract data
     model_names, accuracies = get_model_names_and_accuracies(models_dict)
-    training_times = []
-    
-    for model_id, data in models_dict.items():
-        training_times.append(data.get("training_time_minutes", 0))
     
     # Calculate appropriate y-axis limits for accuracy plot
     min_acc = min(accuracies)
@@ -331,46 +333,33 @@ def plot_model_accuracy_comparison(models_dict=None, save_path="presentation_ass
         y_min = 0
         y_max = 105
     
-    # Create subplots
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6))
+    # Create single chart focusing on accuracy
+    plt.figure(figsize=(12, 8))
     
     # Accuracy comparison with improved scaling
-    bars1 = ax1.bar(model_names, accuracies, color=PRESENTATION_STYLE["colors"][:len(model_names)])
-    for bar, acc in zip(bars1, accuracies):
+    bars = plt.bar(model_names, accuracies, color=PRESENTATION_STYLE["colors"][:len(model_names)])
+    for bar, acc in zip(bars, accuracies):
         label_offset = (y_max - y_min) * 0.01  # 1% of visible range
-        ax1.text(bar.get_x() + bar.get_width()/2, bar.get_height() + label_offset, 
+        plt.text(bar.get_x() + bar.get_width()/2, bar.get_height() + label_offset, 
                 f'{acc:.1f}%', ha='center', va='bottom', 
                 fontsize=PRESENTATION_STYLE["font_size"], fontweight='bold')
     
-    ax1.set_title('Model Accuracy Comparison', fontsize=PRESENTATION_STYLE["title_size"], fontweight='bold')
-    ax1.set_ylabel('Accuracy (%)', fontsize=PRESENTATION_STYLE["font_size"])
-    ax1.set_ylim(y_min, y_max)
-    ax1.grid(axis='y', alpha=0.3)
+    plt.title('Model Accuracy Comparison', fontsize=PRESENTATION_STYLE["title_size"], fontweight='bold')
+    plt.ylabel('Accuracy (%)', fontsize=PRESENTATION_STYLE["font_size"])
+    plt.xlabel('Models', fontsize=PRESENTATION_STYLE["font_size"])
+    plt.ylim(y_min, y_max)
+    plt.grid(axis='y', alpha=0.3)
     
     # Add scale annotation if using focused view
     if acc_range < 10:
-        ax1.text(0.02, 0.98, f"Focused scale: {y_min:.1f}% - {y_max:.1f}%", 
-                transform=ax1.transAxes, fontsize=9, 
+        plt.text(0.02, 0.98, f"Focused scale: {y_min:.1f}% - {y_max:.1f}%", 
+                transform=plt.gca().transAxes, fontsize=10, 
                 verticalalignment='top', alpha=0.7,
                 bbox=dict(boxstyle="round,pad=0.3", facecolor="white", alpha=0.8))
     
+    # Rotate x-axis labels if many models
     if len(model_names) > 3:
-        ax1.tick_params(axis='x', rotation=45)
-    
-    # Training time comparison (unchanged)
-    bars2 = ax2.bar(model_names, training_times, color=PRESENTATION_STYLE["colors"][:len(model_names)])
-    for bar, time_val in zip(bars2, training_times):
-        if time_val > 0:  # Only show label if time is recorded
-            ax2.text(bar.get_x() + bar.get_width()/2, bar.get_height() + max(training_times) * 0.01, 
-                    f'{time_val:.1f}m', ha='center', va='bottom', 
-                    fontsize=PRESENTATION_STYLE["font_size"], fontweight='bold')
-    
-    ax2.set_title('Training Time Comparison', fontsize=PRESENTATION_STYLE["title_size"], fontweight='bold')
-    ax2.set_ylabel('Training Time (minutes)', fontsize=PRESENTATION_STYLE["font_size"])
-    ax2.grid(axis='y', alpha=0.3)
-    
-    if len(model_names) > 3:
-        ax2.tick_params(axis='x', rotation=45)
+        plt.xticks(rotation=45, ha='right')
     
     plt.tight_layout()
     
@@ -477,7 +466,7 @@ def generate_presentation_summary(models_dict=None):
     
     return summary
 
-def create_model_performance_table(models_dict=None, format_type="markdown", order=None):
+def create_model_performance_table(models_dict=None, format_type="markdown", order=None, filter_only=False):
     """
     Create a formatted table of model performance for README or presentation.
     
@@ -487,6 +476,8 @@ def create_model_performance_table(models_dict=None, format_type="markdown", ord
         order (list): Optional list of model IDs to specify the order of models in the table.
                      If None, models will be sorted by accuracy (descending).
                      Example: ["baseline_lr", "glove_pooling_lr", "full_bert_finetuned"]
+        filter_only (bool): If True and order is provided, only include models in the order list.
+                           If False, include all models but reorder based on the order list.
         
     Returns:
         str: Formatted table string
@@ -507,10 +498,11 @@ def create_model_performance_table(models_dict=None, format_type="markdown", ord
             else:
                 print(f"Warning: Model '{model_id}' not found in results. Available models: {list(models_dict.keys())}")
         
-        # Add any remaining models not specified in order
-        for model_id, data in models_dict.items():
-            if model_id not in ordered_models_dict:
-                ordered_models_dict[model_id] = data
+        # Add any remaining models not specified in order (only if filter_only is False)
+        if not filter_only:
+            for model_id, data in models_dict.items():
+                if model_id not in ordered_models_dict:
+                    ordered_models_dict[model_id] = data
         
         sorted_models = list(ordered_models_dict.items())
     else:
