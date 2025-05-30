@@ -1,8 +1,8 @@
 {
   "display_name": "Logistic Regression",
   "accuracy": 0.9467135119309033,
-  "training_time_minutes": 0.0037214120229085287,
-  "timestamp": "2025-05-29T17:47:06.907393",
+  "training_time_minutes": 0.00489505132039388,
+  "timestamp": "2025-05-30T10:44:06.671209",
   "model_id": "NLPModel1_LoR",
   "model_architecture": "Logistic Regression with TF-IDF Vectorization",
   "preprocessing_type": "NLP Basic PreProcessing",
