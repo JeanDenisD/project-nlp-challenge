@@ -1,8 +1,8 @@
 {
   "display_name": "Full BERT Fine-tuned",
-  "accuracy": 0.9874103352364222,
-  "training_time_minutes": 12.380248181025188,
-  "timestamp": "2025-05-30T10:21:18.769767",
+  "accuracy": 0.986239203630508,
+  "training_time_minutes": 9.75950821240743,
+  "timestamp": "2025-05-30T13:35:10.135880",
   "model_id": "full_bert_model",
   "model_architecture": "BERT-base-uncased fine-tuned (109,483,778 parameters)",
   "preprocessing_type": "minimal_cleaning",
@@ -24,6 +24,6 @@
     "vocab_size": 30522,
     "device": "mps"
   },
-  "train_accuracy": 0.9993411420204978,
-  "test_accuracy": 0.9874103352364222
+  "train_accuracy": 0.9947291361639824,
+  "test_accuracy": 0.986239203630508
 }
