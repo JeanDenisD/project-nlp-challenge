@@ -6,10 +6,11 @@
 - **Michael Libio**
 
 ## Project Overview
-This repository contains a comprehensive exploration of 11 different NLP approaches for binary classification of fake vs real news articles. We systematically developed and compared models ranging from traditional machine learning to state-of-the-art transformer architectures, achieving accuracies from 88.96% to 98.74%.
+This repository contains a comprehensive exploration of 9 different NLP approaches for binary classification of fake vs real news articles. We systematically developed and compared models ranging from traditional machine learning to state-of-the-art transformer architectures, achieving accuracies from 88.96% to 98.62%.
 
 ## Dataset
-- **Training Data**: 34,151 news articles (lowercase preprocessed)
+- **Training Data**: 27,320 news articles (80% split)
+- **Validation Data**: 6,831 news articles (20% split)
 - **Test Data**: 9,983 news articles 
 - **Classes**: Fake (0), Real (1)
 - **Distribution**: Well-balanced dataset
@@ -19,10 +20,10 @@ This repository contains a comprehensive exploration of 11 different NLP approac
 
 | Rank | Model | Accuracy | Training Time | Architecture |
 |------|-------|----------|---------------|--------------|
-| 🥇 1 | **Full BERT Fine-tuned** | **98.74%** | 12.4 min | BERT-base-uncased (109M parameters) |
+| 🥇 1 | **Full BERT Fine-tuned** | **98.62%** | 9.8 min | BERT-base-uncased (109M parameters) |
 | 🥈 2 | Simple BERT | 95.87% | 1.2 min | Frozen BERT + LogisticRegression |
-| 🥉 3 | Model 2: TF-IDF + GridSearchCV | 95.45% | 0.5 min | Pipeline optimization |
-| 4 | **Logistic Regression 4** | **95.01%** | **<0.1 min** | **Enhanced hyperparameters (Best Traditional ML)** |
+| 🥉 3 | **Model 2: TF-IDF + GridSearchCV** | **95.45%** | **0.5 min** | **Pipeline optimization (Best Non-BERT)** |
+| 4 | Logistic Regression 4 | 95.01% | <0.1 min | Enhanced hyperparameters |
 | 5 | Logistic Regression | 93.99% | <0.1 min | TF-IDF vectorization |
 | 6 | Linear SVC | 93.36% | <0.1 min | Support Vector Classifier |
 | 7 | Baseline LogisticRegression | 92.90% | <0.1 min | CountVectorizer baseline |
@@ -33,8 +34,8 @@ This repository contains a comprehensive exploration of 11 different NLP approac
 ## 📊 Performance Categories
 
 ### Deep Learning (BERT)
-- **Average Accuracy**: 97.31%
-- **Best Performance**: Full BERT Fine-tuned at 98.74%
+- **Average Accuracy**: 97.25%
+- **Best Performance**: Full BERT Fine-tuned at 98.62%
 - **Trade-off**: Highest accuracy but longest training time
 
 ### Traditional ML 
@@ -43,7 +44,7 @@ This repository contains a comprehensive exploration of 11 different NLP approac
 - **Strength**: Fast training (<0.1 min) with strong performance
 
 ### Embeddings-based
-- **Average Accuracy**: 90.12%
+- **Average Accuracy**: 90.71%
 - **Range**: 88.96% - 92.45%
 - **Note**: Pre-trained embeddings show variable effectiveness
 
@@ -54,19 +55,19 @@ This repository contains a comprehensive exploration of 11 different NLP approac
 ## 🚀 Key Insights & Business Recommendations
 
 ### ✅ Production Ready
-- **Best Model**: Full BERT achieves >95% accuracy threshold
-- **Recommended**: Deploy in production systems with A/B testing
+- **Best Model**: Full BERT achieves 98.62% accuracy - excellent for production
+- **Recommended**: Deploy with confidence for high-stakes applications
 
 ### ⚡ Fast & Accurate Options (>90% accuracy, <5min training)
 For rapid deployment or resource-constrained environments:
-- **NLPModel4 - Logistic Regression**: 95.0% in <0.1 minutes (**Best Traditional ML**)
-- **Model 2: TF-IDF + GridSearchCV**: 95.4% in 0.5 minutes
-- **Simple BERT**: 95.9% in 1.2 minutes
-- **Linear SVC**: 93.4% in <0.1 minutes
+- **Model 2: TF-IDF + GridSearchCV**: 95.45% in 0.5 minutes (**Best Non-BERT Model**)
+- **NLPModel4 - Logistic Regression**: 95.01% in <0.1 minutes (Best Traditional ML)
+- **Simple BERT**: 95.87% in 1.2 minutes
+- **Baseline LogisticRegression**: 92.90% in <0.1 minutes
 
 ### 📈 Performance Analysis
-- **Model Range**: 88.96% - 98.74% (9.8 percentage point spread)
-- **Improvement over Baseline**: +5.84 percentage points (92.90% → 98.74%)
+- **Model Range**: 88.96% - 98.62% (9.66 percentage point spread)
+- **Improvement over Baseline**: +5.72 percentage points (92.90% → 98.62%)
 - **Efficiency Sweet Spot**: Traditional ML achieves 93-95% accuracy with minimal training time
 
 ## 📁 Repository Structure
@@ -75,8 +76,8 @@ project-nlp-challenge/
 ├── 📊 Core Notebooks
 │   ├── base_model_LR.ipynb                     # Baseline LogisticRegression (92.90%)
 │   ├── simple_bert_model.ipynb                 # Simple BERT (95.87%)
-│   ├── full_bert_model.ipynb                   # Full BERT Fine-tuned (98.74%)
-│   ├── Model2_pipeline_model_selection.ipynb   # Pipeline optimization (95.45%)
+│   ├── full_bert_model.ipynb                   # Full BERT Fine-tuned (98.62%)
+│   ├── GridSearchCV_pipeline_model_selection.ipynb # Pipeline optimization (95.45%)
 │   ├── NLPModel1_LoR.ipynb                     # Logistic Regression (93.99%)
 │   ├── NLPModel2_SVM.ipynb                     # Linear SVC (93.36%)
 │   ├── NLPModel3_NB.ipynb                      # Naive Bayes (92.77%)
@@ -93,7 +94,7 @@ project-nlp-challenge/
 │   │   ├── baseline_lr_results.json
 │   │   ├── full_bert_model_results.json
 │   │   ├── simple_bert_results.json
-│   │   ├── model2_pipeline_selection_results.json
+│   │   ├── GridSearchCV_pipeline_selection_results.json
 │   │   ├── NLPModel1_LoR_results.json
 │   │   ├── NLPModel2_SVC_results.json
 │   │   ├── NLPModel3_ND_results.json
@@ -102,7 +103,6 @@ project-nlp-challenge/
 │   │   └── model6b_glove_pooling_lr_results.json
 │   ├── trained_models/                         # Saved traditional ML models
 │   ├── prediction/                             # Test predictions
-│   └── tmp_trainer/                            # Temporary training files
 ├── 📋 Documentation & Planning
 │   ├── README.md                               # This file
 │   ├── project_plan.md                         # Project planning
@@ -139,7 +139,7 @@ To reproduce the complete project:
 - **Text cleaning**: Punctuation removal, whitespace normalization
 - **Feature extraction**: CountVectorizer, TF-IDF, and embedding support
 - **Consistent splits**: Stratified train/validation maintaining label balance
-- **Reusable functions**: Used across all 11 model implementations
+- **Reusable functions**: Used across all 9 model implementations
 
 ### Model Evaluation System (`model_eval.py`)
 - **Standardized metrics**: Accuracy, training time, confusion matrices
@@ -156,7 +156,7 @@ To reproduce the complete project:
 
 ## 🔬 Model Deep Dives
 
-### 🥇 Champion: Full BERT Fine-tuned (98.74%)
+### 🥇 Champion: Full BERT Fine-tuned (98.62%)
 ```python
 # Key hyperparameters for best model (trained on Apple Silicon MPS)
 hyperparameters = {
@@ -170,10 +170,33 @@ hyperparameters = {
     'early_stopping_patience': 2
 }
 ```
+- **Performance**: 98.62% accuracy (99.47% training accuracy)
+- **Architecture**: 109M parameters, fine-tuned end-to-end
+- **Training**: 9.8 minutes on Apple Silicon MPS
+- **Device**: MPS acceleration with 30,522 vocab size
 
-### ⚡ Efficiency Leader: NLPModel4 - Tuned Logistic Regression (95.01%)
+### ⚡ Efficiency Leader: GridSearchCV Pipeline (95.45% in 0.5min)
 ```python
-# Best traditional ML model with optimized hyperparameters
+# Best pipeline configuration found through systematic search
+best_params = {
+    'clf': 'LogisticRegression(max_iter=1000)',
+    'clf__C': 10,
+    'tfidf__max_df': 0.7,
+    'tfidf__min_df': 1,
+    'tfidf__ngram_range': [1, 2]
+}
+```
+- **Strategy**: Systematic hyperparameter optimization across multiple algorithms
+- **Performance**: 95.45% accuracy (99.96% training accuracy) - **Best non-BERT model**
+- **Efficiency**: 0.5 minute training vs 9.8 minutes for BERT (**20x faster**)
+- **Platform**: Windows/Google Colab training
+- **Components**: TF-IDF + GridSearchCV across LR, SVC, NB
+- **Achievement**: Demonstrates the power of systematic hyperparameter search
+- **Ranking**: 3rd overall, **best traditional ML approach**
+
+### 🏆 Best Single Algorithm: NLPModel4 - Tuned Logistic Regression (95.01%)
+```python
+# Best individual model with optimized hyperparameters
 hyperparameters = {
     'token_pattern': '(?u)\\b\\w+\\b',
     'ngram_range': [1, 2],        # Unigrams and bigrams
@@ -182,24 +205,19 @@ hyperparameters = {
     'max_features': 10000         # Feature limit
 }
 ```
-- **Key Innovation**: Systematic hyperparameter tuning of TF-IDF + LogisticRegression
-- **Performance**: 95.01% accuracy - only 3.73 percentage points below BERT
-- **Efficiency**: <0.1 minute training time vs 12.4 minutes for BERT (**120x faster**)
-- **Sweet Spot**: Excellent accuracy-to-speed ratio for production deployment
+- **Key Innovation**: Manual hyperparameter tuning of TF-IDF + LogisticRegression
+- **Performance**: 95.01% accuracy - very close to GridSearchCV performance
+- **Efficiency**: <0.1 minute training time (**98x faster than BERT**)
+- **Sweet Spot**: Best individual algorithm for ultra-fast deployment
 - **Training**: Windows/Google Colab platforms
-- **Ranking**: 4th overall, **best traditional ML model**
+- **Ranking**: 4th overall, best single traditional ML model
 
-### 🏗️ Pipeline Excellence: Model 2 GridSearchCV (95.45% in 0.5min)
-- **Strategy**: Systematic hyperparameter optimization across multiple algorithms
-- **Platform**: Windows/Google Colab training
-- **Components**: TF-IDF + GridSearchCV across LR, SVC, NB
-- **Achievement**: Slightly outperforms individual tuned models through systematic search
-
-### 💡 Baseline Excellence: Traditional ML (92.90%+)
+### 💡 Baseline Excellence: CountVectorizer + LogisticRegression (92.90%)
+- **Architecture**: Simple CountVectorizer (10k features) + LogisticRegression
+- **Training**: Apple Silicon MPS, <0.1 minute
 - **Insight**: Proper preprocessing enables competitive traditional ML
-- **Training**: Mixed platforms (Apple Silicon baseline, Windows/Colab variants)
-- **Advantage**: 10-100x faster training than deep learning approaches
 - **Use case**: Rapid prototyping, resource-constrained deployments
+- **Foundation**: Demonstrates strong baseline for comparison
 
 ## 📚 Usage Examples
 
@@ -213,12 +231,18 @@ from sklearn.linear_model import LogisticRegression
 train_data = load_and_parse_data('data/training_data_lowercase.csv')
 X_train, X_val, y_train, y_val = create_train_validation_split(train_data)
 
-# TF-IDF + Logistic Regression pipeline (achieves 95.01%)
-vectorizer = TfidfVectorizer(max_features=10000, stop_words='english')
+# NLPModel4: TF-IDF + Optimized Logistic Regression pipeline (achieves 95.01%)
+vectorizer = TfidfVectorizer(
+    token_pattern=r'(?u)\b\w+\b',
+    ngram_range=(1, 2),
+    min_df=2,
+    max_df=0.8,
+    max_features=10000
+)
 X_train_tfidf = vectorizer.fit_transform(X_train)
 X_val_tfidf = vectorizer.transform(X_val)
 
-model = LogisticRegression(C=1.0, max_iter=1000)
+model = LogisticRegression(max_iter=1000, random_state=42)
 model.fit(X_train_tfidf, y_train)
 accuracy = model.score(X_val_tfidf, y_val)  # ~95.01%
 ```
@@ -238,8 +262,8 @@ plot_best_models_comparison(models, save_path="model_comparison.png")
 ## 🎯 Monitoring & Deployment Recommendations
 
 ### Production Deployment
-- **Primary**: Full BERT Fine-tuned for maximum accuracy
-- **Fallback**: Model 2 Pipeline for efficiency without major accuracy loss
+- **Primary**: Full BERT Fine-tuned for maximum accuracy (98.62%)
+- **High-efficiency alternative**: NLPModel4 for 95%+ accuracy with minimal resources
 - **Monitoring**: Set alerts below 90% accuracy threshold
 
 ### Operational Considerations
@@ -247,6 +271,12 @@ plot_best_models_comparison(models, save_path="model_comparison.png")
 - **Human-in-the-loop**: Route low-confidence predictions for review
 - **Retraining schedule**: Monthly/quarterly model updates
 - **A/B testing**: Compare against existing solutions
+
+### Cost-Benefit Analysis
+- **BERT**: 98.62% accuracy, 9.8 min training - for maximum performance
+- **GridSearchCV**: 95.45% accuracy, 0.5 min training - **best efficiency/accuracy balance**
+- **NLPModel4**: 95.01% accuracy, <0.1 min training - for ultra-fast deployment
+- **Key Trade-off**: 3.17 percentage points vs 20x faster training (GridSearchCV vs BERT)
 
 ## 🔧 Technologies Used
 - **Deep Learning**: PyTorch, Transformers (Hugging Face) 
@@ -259,12 +289,13 @@ plot_best_models_comparison(models, save_path="model_comparison.png")
 - **Version Control**: Git with comprehensive model tracking
 
 ## 📈 Future Improvements
-1. **Ensemble methods**: Combine top-performing models
-2. **Data augmentation**: Expand training dataset
-3. **Advanced architectures**: Explore RoBERTa, DistilBERT
-4. **Deployment optimization**: Model compression and quantization
+1. **Ensemble methods**: Combine top-performing models (BERT + NLPModel4)
+2. **Data augmentation**: Expand training dataset with synthetic examples
+3. **Advanced architectures**: Explore RoBERTa, DistilBERT for efficiency
+4. **Deployment optimization**: Model compression and quantization for BERT
 5. **Real-time inference**: API development for production use
+6. **Cross-validation**: Implement k-fold validation for more robust evaluation
 
 ---
 
-*This project demonstrates the complete machine learning lifecycle for fake news classification, from data exploration through model comparison to production recommendations. Our systematic approach identified that while BERT achieves the highest accuracy (98.74%), traditional ML models can achieve 93-95% accuracy with significantly faster training, providing excellent alternatives for different deployment scenarios.*
+*This project demonstrates the complete machine learning lifecycle for fake news classification, from data exploration through model comparison to production recommendations. Our systematic approach identified that while BERT achieves the highest accuracy (98.62%), traditional ML models can achieve 95%+ accuracy with significantly faster training, providing excellent alternatives for different deployment scenarios. The key finding is that proper hyperparameter tuning (NLPModel4) can bridge most of the gap between traditional ML and deep learning while maintaining computational efficiency.*
