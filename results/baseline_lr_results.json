@@ -1,8 +1,8 @@
 {
   "display_name": "Baseline LogisticRegression",
   "accuracy": 0.9290001463914508,
-  "training_time_minutes": 0.0011460185050964355,
-  "timestamp": "2025-05-29T01:00:04.872875",
+  "training_time_minutes": 0.0018980701764424641,
+  "timestamp": "2025-05-30T09:34:36.564872",
   "model_id": "baseline_lr",
   "model_architecture": "LogisticRegression with CountVectorizer (10k features)",
   "preprocessing_type": "standardized_clean_text",
@@ -18,5 +18,34 @@
     "training_samples": 27320,
     "validation_samples": 6831,
     "vocabulary_size": 10000
+  },
+  "train_accuracy": 0.9739385065885798,
+  "test_accuracy": 0.9290001463914508,
+  "classification_report": {
+    "0": {
+      "precision": 0.9445422535211268,
+      "recall": 0.9157894736842105,
+      "f1-score": 0.9299436660407338,
+      "support": 3515.0
+    },
+    "1": {
+      "precision": 0.913526146654981,
+      "recall": 0.9430036188178529,
+      "f1-score": 0.9280308651135183,
+      "support": 3316.0
+    },
+    "accuracy": 0.9290001463914508,
+    "macro avg": {
+      "precision": 0.9290342000880538,
+      "recall": 0.9293965462510316,
+      "f1-score": 0.9289872655771261,
+      "support": 6831.0
+    },
+    "weighted avg": {
+      "precision": 0.9294859791296556,
+      "recall": 0.9290001463914508,
+      "f1-score": 0.9290151273385456,
+      "support": 6831.0
+    }
   }
 }
