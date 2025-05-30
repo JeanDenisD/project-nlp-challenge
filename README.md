@@ -6,7 +6,7 @@
 - **Michael Libio**
 
 ## Project Overview
-This repository contains a comprehensive exploration of 9 different NLP approaches for binary classification of fake vs real news articles. We systematically developed and compared models ranging from traditional machine learning to state-of-the-art transformer architectures, achieving accuracies from 88.96% to 98.62%.
+This repository contains a comprehensive exploration of 9 different NLP approaches for binary classification of fake vs real news articles. We systematically developed and compared models ranging from traditional machine learning to state-of-the-art transformer architectures, achieving accuracies from 88.96% to 98.76%.
 
 ## Dataset
 - **Training Data**: 27,320 news articles (80% split)
@@ -20,7 +20,7 @@ This repository contains a comprehensive exploration of 9 different NLP approach
 
 | Rank | Model | Accuracy | Training Time | Architecture |
 |------|-------|----------|---------------|--------------|
-| 🥇 1 | **Full BERT Fine-tuned** | **98.62%** | 9.8 min | BERT-base-uncased (109M parameters) |
+| 🥇 1 | **Full BERT Fine-tuned** | **98.76%** | 13.2 min | BERT-base-uncased (109M parameters) |
 | 🥈 2 | Simple BERT | 95.87% | 1.2 min | Frozen BERT + LogisticRegression |
 | 🥉 3 | **Model 2: TF-IDF + GridSearchCV** | **95.45%** | **0.5 min** | **Pipeline optimization (Best Non-BERT)** |
 | 4 | Logistic Regression 4 | 95.01% | <0.1 min | Enhanced hyperparameters |
@@ -34,8 +34,8 @@ This repository contains a comprehensive exploration of 9 different NLP approach
 ## 📊 Performance Categories
 
 ### Deep Learning (BERT)
-- **Average Accuracy**: 97.25%
-- **Best Performance**: Full BERT Fine-tuned at 98.62%
+- **Average Accuracy**: 97.32%
+- **Best Performance**: Full BERT Fine-tuned at 98.76%
 - **Trade-off**: Highest accuracy but longest training time
 
 ### Traditional ML 
@@ -55,7 +55,7 @@ This repository contains a comprehensive exploration of 9 different NLP approach
 ## 🚀 Key Insights & Business Recommendations
 
 ### ✅ Production Ready
-- **Best Model**: Full BERT achieves 98.62% accuracy - excellent for production
+- **Best Model**: Full BERT achieves 98.76% accuracy - excellent for production
 - **Recommended**: Deploy with confidence for high-stakes applications
 
 ### ⚡ Fast & Accurate Options (>90% accuracy, <5min training)
@@ -66,8 +66,8 @@ For rapid deployment or resource-constrained environments:
 - **Baseline LogisticRegression**: 92.90% in <0.1 minutes
 
 ### 📈 Performance Analysis
-- **Model Range**: 88.96% - 98.62% (9.66 percentage point spread)
-- **Improvement over Baseline**: +5.72 percentage points (92.90% → 98.62%)
+- **Model Range**: 88.96% - 98.76% (9.80 percentage point spread)
+- **Improvement over Baseline**: +5.86 percentage points (92.90% → 98.76%)
 - **Efficiency Sweet Spot**: Traditional ML achieves 93-95% accuracy with minimal training time
 
 ## 📁 Repository Structure
@@ -156,7 +156,7 @@ To reproduce the complete project:
 
 ## 🔬 Model Deep Dives
 
-### 🥇 Champion: Full BERT Fine-tuned (98.62%)
+### 🥇 Champion: Full BERT Fine-tuned (98.76%)
 ```python
 # Key hyperparameters for best model (trained on Apple Silicon MPS)
 hyperparameters = {
@@ -170,9 +170,9 @@ hyperparameters = {
     'early_stopping_patience': 2
 }
 ```
-- **Performance**: 98.62% accuracy (99.47% training accuracy)
+- **Performance**: 98.76% accuracy (99.91% training accuracy)
 - **Architecture**: 109M parameters, fine-tuned end-to-end
-- **Training**: 9.8 minutes on Apple Silicon MPS
+- **Training**: 13.2 minutes on Apple Silicon MPS
 - **Device**: MPS acceleration with 30,522 vocab size
 
 ### ⚡ Efficiency Leader: GridSearchCV Pipeline (95.45% in 0.5min)
@@ -188,7 +188,7 @@ best_params = {
 ```
 - **Strategy**: Systematic hyperparameter optimization across multiple algorithms
 - **Performance**: 95.45% accuracy (99.96% training accuracy) - **Best non-BERT model**
-- **Efficiency**: 0.5 minute training vs 9.8 minutes for BERT (**20x faster**)
+- **Efficiency**: 0.5 minute training vs 13.2 minutes for BERT (**26x faster**)
 - **Platform**: Windows/Google Colab training
 - **Components**: TF-IDF + GridSearchCV across LR, SVC, NB
 - **Achievement**: Demonstrates the power of systematic hyperparameter search
@@ -207,7 +207,7 @@ hyperparameters = {
 ```
 - **Key Innovation**: Manual hyperparameter tuning of TF-IDF + LogisticRegression
 - **Performance**: 95.01% accuracy - very close to GridSearchCV performance
-- **Efficiency**: <0.1 minute training time (**98x faster than BERT**)
+- **Efficiency**: <0.1 minute training time (**132x faster than BERT**)
 - **Sweet Spot**: Best individual algorithm for ultra-fast deployment
 - **Training**: Windows/Google Colab platforms
 - **Ranking**: 4th overall, best single traditional ML model
@@ -262,7 +262,7 @@ plot_best_models_comparison(models, save_path="model_comparison.png")
 ## 🎯 Monitoring & Deployment Recommendations
 
 ### Production Deployment
-- **Primary**: Full BERT Fine-tuned for maximum accuracy (98.62%)
+- **Primary**: Full BERT Fine-tuned for maximum accuracy (98.76%)
 - **High-efficiency alternative**: NLPModel4 for 95%+ accuracy with minimal resources
 - **Monitoring**: Set alerts below 90% accuracy threshold
 
@@ -273,10 +273,10 @@ plot_best_models_comparison(models, save_path="model_comparison.png")
 - **A/B testing**: Compare against existing solutions
 
 ### Cost-Benefit Analysis
-- **BERT**: 98.62% accuracy, 9.8 min training - for maximum performance
+- **BERT**: 98.76% accuracy, 13.2 min training - for maximum performance
 - **GridSearchCV**: 95.45% accuracy, 0.5 min training - **best efficiency/accuracy balance**
 - **NLPModel4**: 95.01% accuracy, <0.1 min training - for ultra-fast deployment
-- **Key Trade-off**: 3.17 percentage points vs 20x faster training (GridSearchCV vs BERT)
+- **Key Trade-off**: 3.31 percentage points vs 26x faster training (GridSearchCV vs BERT)
 
 ## 🔧 Technologies Used
 - **Deep Learning**: PyTorch, Transformers (Hugging Face) 
@@ -298,4 +298,4 @@ plot_best_models_comparison(models, save_path="model_comparison.png")
 
 ---
 
-*This project demonstrates the complete machine learning lifecycle for fake news classification, from data exploration through model comparison to production recommendations. Our systematic approach identified that while BERT achieves the highest accuracy (98.62%), traditional ML models can achieve 95%+ accuracy with significantly faster training, providing excellent alternatives for different deployment scenarios. The key finding is that proper hyperparameter tuning (NLPModel4) can bridge most of the gap between traditional ML and deep learning while maintaining computational efficiency.*
+*This project demonstrates the complete machine learning lifecycle for fake news classification, from data exploration through model comparison to production recommendations. Our systematic approach identified that while BERT achieves the highest accuracy (98.76%), traditional ML models can achieve 95%+ accuracy with significantly faster training, providing excellent alternatives for different deployment scenarios. The key finding is that proper hyperparameter tuning (NLPModel4) can bridge most of the gap between traditional ML and deep learning while maintaining computational efficiency.*
