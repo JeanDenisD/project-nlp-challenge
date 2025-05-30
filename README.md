@@ -22,14 +22,13 @@ This repository contains a comprehensive exploration of 11 different NLP approac
 | 🥇 1 | **Full BERT Fine-tuned** | **98.74%** | 12.4 min | BERT-base-uncased (109M parameters) |
 | 🥈 2 | Simple BERT | 95.87% | 1.2 min | Frozen BERT + LogisticRegression |
 | 🥉 3 | Model 2: TF-IDF + GridSearchCV | 95.45% | 0.5 min | Pipeline optimization |
-| 4 | Logistic Regression 4 | 95.01% | <0.1 min | Enhanced hyperparameters |
+| 4 | **Logistic Regression 4** | **95.01%** | **<0.1 min** | **Enhanced hyperparameters (Best Traditional ML)** |
 | 5 | Logistic Regression | 93.99% | <0.1 min | TF-IDF vectorization |
 | 6 | Linear SVC | 93.36% | <0.1 min | Support Vector Classifier |
 | 7 | Baseline LogisticRegression | 92.90% | <0.1 min | CountVectorizer baseline |
 | 8 | Naive Bayes | 92.77% | <0.1 min | Traditional ML |
 | 9 | Universal Sentence Encoder + LR | 92.45% | <0.1 min | USE embeddings (512-dim) |
 | 10 | Model 6b: GloVe + Pooling + LR | 88.96% | <0.1 min | GloVe-6B-100d embeddings |
-| 11 | GloVe + Pooling + LR | 88.96% | <0.1 min | Alternative GloVe implementation |
 
 ## 📊 Performance Categories
 
@@ -60,8 +59,8 @@ This repository contains a comprehensive exploration of 11 different NLP approac
 
 ### ⚡ Fast & Accurate Options (>90% accuracy, <5min training)
 For rapid deployment or resource-constrained environments:
+- **NLPModel4 - Logistic Regression**: 95.0% in <0.1 minutes (**Best Traditional ML**)
 - **Model 2: TF-IDF + GridSearchCV**: 95.4% in 0.5 minutes
-- **Logistic Regression 4**: 95.0% in <0.1 minutes  
 - **Simple BERT**: 95.9% in 1.2 minutes
 - **Linear SVC**: 93.4% in <0.1 minutes
 
@@ -84,13 +83,13 @@ project-nlp-challenge/
 │   ├── NLPModel4_LoR.ipynb                     # Enhanced LR (95.01%)
 │   ├── Model6a_USE_LR.ipynb                    # Universal Sentence Encoder (92.45%)
 │   ├── Model6b_GloVe_Pooling_LR.ipynb          # GloVe embeddings (88.96%)
+│   ├── data_explore.ipynb                      # Data exploration
 │   └── results_summary.ipynb                   # Comprehensive analysis
 ├── 🔧 Utilities & Code
 │   ├── preprocess.py                           # Standardized preprocessing
-│   ├── model_eval.py                           # Model evaluation & visualization
-│   └── data_explore.ipynb                      # Data exploration
-├── 📈 Results (JSON format)
-│   ├── results/                                # Model performance results
+│   └── model_eval.py                           # Model evaluation & visualization
+├── 📈 Results & Models
+│   ├── results/                                # Model performance results (JSON)
 │   │   ├── baseline_lr_results.json
 │   │   ├── full_bert_model_results.json
 │   │   ├── simple_bert_results.json
@@ -99,19 +98,17 @@ project-nlp-challenge/
 │   │   ├── NLPModel2_SVC_results.json
 │   │   ├── NLPModel3_ND_results.json
 │   │   ├── NLPModel4_LoR_results.json
-│   │   ├── Model6a_GloVe_Pooling_LR_results.json
 │   │   ├── model6a_use_lr_results.json
 │   │   └── model6b_glove_pooling_lr_results.json
 │   ├── trained_models/                         # Saved traditional ML models
-│   └── prediction/                             # Test predictions
+│   ├── prediction/                             # Test predictions
+│   └── tmp_trainer/                            # Temporary training files
 ├── 📋 Documentation & Planning
 │   ├── README.md                               # This file
 │   ├── project_plan.md                         # Project planning
-│   ├── g2_presentation.pptx                    # Final presentation
-│   └── tmp_trainer/                            # Temporary training files
+│   └── g2_presentation.pptx                    # Final presentation
 └── 🔧 Configuration
-    ├── .gitignore                              # Git ignore rules
-    └── .git/                                   # Git repository data
+    └── .gitignore                              # Git ignore rules
 ```
 
 ### 📥 Setup Instructions for New Users
@@ -174,11 +171,29 @@ hyperparameters = {
 }
 ```
 
-### ⚡ Efficiency Leader: Model 2 Pipeline (95.45% in 0.5min)
-- **Strategy**: Systematic hyperparameter optimization
+### ⚡ Efficiency Leader: NLPModel4 - Tuned Logistic Regression (95.01%)
+```python
+# Best traditional ML model with optimized hyperparameters
+hyperparameters = {
+    'token_pattern': '(?u)\\b\\w+\\b',
+    'ngram_range': [1, 2],        # Unigrams and bigrams
+    'min_df': 2,                  # Remove rare terms
+    'max_df': 0.8,                # Remove too common terms  
+    'max_features': 10000         # Feature limit
+}
+```
+- **Key Innovation**: Systematic hyperparameter tuning of TF-IDF + LogisticRegression
+- **Performance**: 95.01% accuracy - only 3.73 percentage points below BERT
+- **Efficiency**: <0.1 minute training time vs 12.4 minutes for BERT (**120x faster**)
+- **Sweet Spot**: Excellent accuracy-to-speed ratio for production deployment
+- **Training**: Windows/Google Colab platforms
+- **Ranking**: 4th overall, **best traditional ML model**
+
+### 🏗️ Pipeline Excellence: Model 2 GridSearchCV (95.45% in 0.5min)
+- **Strategy**: Systematic hyperparameter optimization across multiple algorithms
 - **Platform**: Windows/Google Colab training
-- **Components**: TF-IDF + GridSearchCV across multiple algorithms
-- **Sweet spot**: Near-BERT performance with traditional ML speed
+- **Components**: TF-IDF + GridSearchCV across LR, SVC, NB
+- **Achievement**: Slightly outperforms individual tuned models through systematic search
 
 ### 💡 Baseline Excellence: Traditional ML (92.90%+)
 - **Insight**: Proper preprocessing enables competitive traditional ML
